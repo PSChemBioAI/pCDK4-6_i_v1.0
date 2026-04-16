@@ -1,4 +1,4 @@
-# pCDK4-6-i_v1.0 
+# pCDK4-6_i_v1.0 
 >p = predictor,
 CDK4-6 = CDK4/6 enzyme,
 i = inhibitor,
