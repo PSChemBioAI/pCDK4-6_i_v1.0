@@ -11,7 +11,6 @@ ___
 This predictive tool was developed as an integral component of the following research manuscript:
 >A machine learning approach in combination with a quantum chemistry study to find potent inhibitors against the cell cycle-based cyclin-dependent kinase 4/6 enzyme for anti-cancer treatment.
 ___
-<img src="https://github.com/PriyankaDrugAI/pCDK4-6_i_v1.0/blob/main/priyankadrugAI-red.png?raw=1" width="500" align="right">
 
 **How to use this?**
 
