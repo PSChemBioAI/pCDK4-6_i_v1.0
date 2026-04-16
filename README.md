@@ -26,9 +26,7 @@ ___
 
 Example Smiles:
 1. Known CDK4/6 inhibitor:
-Nc1ccc(-c2cc(Nc3ccc(S(N)(=O)=O)cc3)[nH]n2)cc1
 2. Known CDK4/6 Inactive molecule:
-c1ccc2c(c1)ccn2CCCCCCn1ccc2ccccc21
 3. Imatinib:
 Cc1ccc(NC(=O)c2ccc(CN3CCN(C)CC3)cc2)cc1Nc1nccc(-c2cccnc2)n1
 
