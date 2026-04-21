@@ -232,11 +232,23 @@ if mode == "🧪 Single Molecule Prediction":
 
     st.header("Single Molecule Prediction")
 
-    col1, col2 = st.columns(2)
+    col1, col2 = st.columns([1.2,1])
 
     with col1:
-        st.markdown("### Draw Molecule")
-        smile_code = st_ketcher()
+    st.markdown("### Draw Molecule")
+
+    st.markdown("""
+    <div style="
+        background:white;
+        padding:15px;
+        border-radius:15px;
+        box-shadow:0px 4px 12px rgba(0,0,0,0.08);
+    ">
+    """, unsafe_allow_html=True)
+
+    smile_code = st_ketcher(height=450)
+
+    st.markdown("</div>", unsafe_allow_html=True)
 
     with col2:
         st.markdown("### SMILES Input")
