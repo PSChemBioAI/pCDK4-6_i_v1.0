@@ -39,7 +39,7 @@ section[data-testid="stSidebar"] label,
 section[data-testid="stSidebar"] .stRadio label,
 section[data-testid="stSidebar"] p,
 section[data-testid="stSidebar"] span {
-    color: black !important;
+    color: white !important;
     font-size: 18px !important;
 }
 
