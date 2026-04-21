@@ -185,7 +185,7 @@ with st.expander("About", expanded=True):
     """)
 
 st.sidebar.image(logo_url)
-st.sidebar.success("Welcome to pCDK4-6_i_v1.0. ")
+st.sidebar.success(" **Welcome to pCDK4-6_i_v1.0.** ")
 
 # =========================================================
 # SIDEBAR MODE
