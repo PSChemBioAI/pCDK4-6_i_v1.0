@@ -3,24 +3,39 @@ from streamlit_ketcher import st_ketcher
 import pandas as pd
 import numpy as np
 import joblib
-from rdkit import Chem, DataStructs
-from rdkit.Chem import rdFingerprintGenerator
-from rdkit.Chem import Draw
+import io
 
-# -------------------------------
-# PAGE CONFIG
-# -------------------------------
+from rdkit import Chem, DataStructs
+from rdkit.Chem import rdFingerprintGenerator, Draw
+from PIL import Image
+
+# =========================================================
+# Author : Priyanka Solanki
+# =========================================================
+logo_url = "images/logo.png"
+st.image(logo_url)
+
 st.set_page_config(
     page_title="Bioactivity Predictor",
-    layout="wide"
+    layout="wide",
+    page_icon=logo_url
 )
 
-st.title("Bioactivity Prediction Web App")
-st.write("Predict activity class and pIC50 from SMILES")
+st.markdown("""
+<style>
+section[data-testid="stSidebar"] label {
+    font-size: 20px !important;
+    font-weight: bold !important;
+}
+section[data-testid="stSidebar"] div[role="radiogroup"] label {
+    font-size: 18px !important;
+}
+</style>
+""", unsafe_allow_html=True)
 
-# -------------------------------
+# =========================================================
 # LOAD MODELS
-# -------------------------------
+# =========================================================
 @st.cache_resource
 def load_models():
     clf_model = joblib.load("xgb_model.pkl")
@@ -29,97 +44,155 @@ def load_models():
 
 clf_model, reg_model = load_models()
 
-# -------------------------------
+# =========================================================
 # FINGERPRINT GENERATOR
-# -------------------------------
+# =========================================================
 fpg = rdFingerprintGenerator.GetMorganGenerator(radius=3, fpSize=2048)
 
-# -------------------------------
-# FEATURE FUNCTION
-# -------------------------------
-def smiles_to_fp(smiles):
+# =========================================================
+# UTILITY FUNCTIONS
+# =========================================================
+def generate_molecule_image(smiles):
+    try:
+        mol = Chem.MolFromSmiles(smiles)
+        if mol:
+            img = Draw.MolToImage(mol, size=(300, 300))
+            return img
+        return None
+    except:
+        return None
+
+def predict_smiles(smiles):
     mol = Chem.MolFromSmiles(smiles)
 
     if mol is None:
-        return None, None
+        return None
 
     fp = fpg.GetFingerprint(mol)
     arr = np.zeros((2048,), dtype=int)
     DataStructs.ConvertToNumpyArray(fp, arr)
+    fp_array = arr.reshape(1, -1)
 
-    img = Draw.MolToImage(mol, size=(300, 300))
+    clf_pred = clf_model.predict(fp_array)[0]
+    clf_prob = clf_model.predict_proba(fp_array)[0][1]
+    reg_pred = reg_model.predict(fp_array)[0]
 
-    return arr.reshape(1, -1), img
+    return clf_pred, clf_prob, reg_pred
 
-# -------------------------------
-# PREDICTION FUNCTION
-# -------------------------------
-def predict_smiles(smiles):
-    fp, img = smiles_to_fp(smiles)
+# =========================================================
+# UI HEADER
+# =========================================================
+st.title("Bioactivity Prediction Web App")
 
-    if fp is None:
-        return None
+with st.expander("About", expanded=True):
+    st.write("""
+    This web application predicts:
 
-    clf_pred = clf_model.predict(fp)[0]
-    clf_prob = clf_model.predict_proba(fp)[0][1]
-    reg_pred = reg_model.predict(fp)[0]
+    1. **Bioactivity Class** → Active / Inactive  
+    2. **Probability of Activity**
+    3. **Predicted pIC50**
 
-    return clf_pred, clf_prob, reg_pred, img
+    using machine learning models.
+    """)
 
-# -------------------------------
-# SIDEBAR
-# -------------------------------
+st.sidebar.image(logo_url)
+st.sidebar.success("Welcome to Bioactivity Predictor")
+
+# =========================================================
+# SIDEBAR MODE
+# =========================================================
 mode = st.sidebar.radio(
-    "Select Mode",
-    ["Single Molecule Prediction", "Batch Prediction"]
+    "Select Prediction Mode",
+    ["Select...", "Single Molecule Prediction", "Batch Prediction"]
 )
 
-# =====================================================
-# SINGLE MOLECULE PREDICTION
-# =====================================================
+if mode == "Select...":
+    st.info("Please select a prediction mode from the sidebar.")
+    st.stop()
+
+# =========================================================
+# SINGLE PREDICTION
+# =========================================================
 if mode == "Single Molecule Prediction":
+
+    st.header("Single Molecule Prediction")
 
     col1, col2 = st.columns(2)
 
     with col1:
-        st.subheader("Draw Molecule")
-        smiles_drawn = st_ketcher()
+        st.markdown("### Draw Molecule")
+        smile_code = st_ketcher()
 
     with col2:
+        st.markdown("### SMILES Input")
         smiles_input = st.text_input(
-            "Enter SMILES",
-            value=smiles_drawn if smiles_drawn else ""
+            "Enter or edit SMILES:",
+            value=smile_code if smile_code else ""
         )
 
-    if st.button("Predict"):
-
-        result = predict_smiles(smiles_input)
+    if smiles_input:
+        with st.spinner("Predicting..."):
+            result = predict_smiles(smiles_input)
 
         if result is None:
-            st.error("Invalid SMILES")
+            st.error("Invalid SMILES!")
         else:
-            clf_pred, clf_prob, reg_pred, img = result
-
+            clf_pred, clf_prob, reg_pred = result
             label = "Active" if clf_pred == 1 else "Inactive"
 
-            colA, colB = st.columns(2)
+            res_col1, res_col2 = st.columns([1, 1.2])
 
-            with colA:
-                st.image(img, caption="Query Molecule")
+            with res_col1:
+                img = generate_molecule_image(smiles_input)
+                if img:
+                    st.image(img, use_container_width=True)
+                else:
+                    st.warning("Unable to generate molecule image.")
 
-            with colB:
-                st.subheader("Prediction Results")
-                st.success(f"Predicted Class: {label}")
-                st.write(f"Probability of Active: {clf_prob:.3f}")
-                st.write(f"Predicted pIC50: {reg_pred:.3f}")
+            with res_col2:
+                st.markdown(
+                    f"""
+                    <div style="
+                        font-size:42px;
+                        font-weight:700;
+                        text-align:center;
+                        color:{'green' if clf_pred == 1 else 'red'};
+                    ">
+                    {label}
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
 
-# =====================================================
+                st.markdown(
+                    f"""
+                    <div style="text-align:center; font-size:18px; margin-top:15px;">
+                    <b>Probability (Active)</b><br>
+                    {clf_prob:.3f}
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
+
+                st.markdown(
+                    f"""
+                    <div style="text-align:center; font-size:18px; margin-top:15px;">
+                    <b>Predicted pIC50</b><br>
+                    {reg_pred:.3f}
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
+
+# =========================================================
 # BATCH PREDICTION
-# =====================================================
+# =========================================================
 elif mode == "Batch Prediction":
 
+    st.header("Batch Prediction")
+
     uploaded_file = st.file_uploader(
-        "Upload CSV with 'Smiles' column",
+        "Upload CSV file with 'Smiles' column",
         type=["csv"]
     )
 
@@ -128,40 +201,52 @@ elif mode == "Batch Prediction":
         df = pd.read_csv(uploaded_file)
 
         if "Smiles" not in df.columns:
-            st.error("CSV must contain 'Smiles' column")
-        else:
+            st.error("File must contain a 'Smiles' column")
+            st.stop()
 
-            classes = []
-            probs = []
-            pic50s = []
+        predictions = []
+        probabilities = []
+        pic50s = []
+        labels = []
 
-            for smiles in df["Smiles"]:
-
-                result = predict_smiles(smiles)
+        with st.spinner("Running predictions..."):
+            for smi in df["Smiles"]:
+                result = predict_smiles(smi)
 
                 if result is None:
-                    classes.append("Invalid")
-                    probs.append(None)
+                    predictions.append(None)
+                    probabilities.append(None)
                     pic50s.append(None)
+                    labels.append("Invalid SMILES")
                 else:
-                    clf_pred, clf_prob, reg_pred, img = result
-                    label = "Active" if clf_pred == 1 else "Inactive"
-
-                    classes.append(label)
-                    probs.append(clf_prob)
+                    clf_pred, clf_prob, reg_pred = result
+                    predictions.append(clf_pred)
+                    probabilities.append(clf_prob)
                     pic50s.append(reg_pred)
+                    labels.append("Active" if clf_pred == 1 else "Inactive")
 
-            df["Predicted_Class"] = classes
-            df["Probability_Active"] = probs
-            df["Predicted_pIC50"] = pic50s
+        df["Prediction"] = predictions
+        df["Probability"] = probabilities
+        df["Predicted_pIC50"] = pic50s
+        df["Label"] = labels
 
-            st.dataframe(df)
+        st.success("Batch prediction completed!")
+        st.dataframe(df)
 
-            csv = df.to_csv(index=False).encode("utf-8")
+        csv = df.to_csv(index=False).encode("utf-8")
 
-            st.download_button(
-                "Download Results",
-                csv,
-                "prediction_results.csv",
-                "text/csv"
-            )
+        st.download_button(
+            label="Download Results",
+            data=csv,
+            file_name="prediction_results.csv",
+            mime="text/csv"
+        )
+
+# =========================================================
+# CONTACT
+# =========================================================
+with st.expander("Contact"):
+    st.write("""
+    **Priyanka Solanki**  
+     https://github.com/PriyankaDrugAI
+    """)
