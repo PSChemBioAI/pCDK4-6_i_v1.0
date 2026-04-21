@@ -104,7 +104,7 @@ def mol_to_array(mol, size=(300, 300)):
     except:
         try:
             # Fallback: simple PIL drawing
-            # from rdkit.Chem import Draw
+            #from rdkit.Chem import Draw
             return Draw.MolToImage(mol, size=size)
 
         except:
