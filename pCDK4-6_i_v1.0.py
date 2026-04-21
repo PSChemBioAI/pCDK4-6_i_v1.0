@@ -42,19 +42,19 @@ section[data-testid="stSidebar"] span {
     color: white !important;
     font-size: 18px !important;
 }
-/* Welcome box */
-section[data-testid="stSidebar"] div[data-testid="stAlert"] {
-    background-color: black !important;
-    color: white !important;
-    border-radius: 10px;
-    border: none !important;
-}
 
 /* Sidebar success box */
 section[data-testid="stSidebar"] div[data-testid="stAlert"] {
     background-color: #DDF5E3 !important;
-    color: #145A32 !important;
     border-radius: 10px;
+}
+
+/* Force success box text black */
+section[data-testid="stSidebar"] div[data-testid="stAlert"] p,
+section[data-testid="stSidebar"] div[data-testid="stAlert"] span,
+section[data-testid="stSidebar"] div[data-testid="stAlert"] div {
+    color: black !important;
+    font-weight: bold;
 }
 
 /* Main title */
