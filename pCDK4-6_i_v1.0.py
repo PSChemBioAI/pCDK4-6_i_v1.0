@@ -90,9 +90,6 @@ details {
 .stButton > button:hover {
     background-color: #145A32;
     color: white;
-    transform: translateY(-2px);
-    transition: 0.3s;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 .stButton > button:hover {
