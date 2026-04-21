@@ -236,18 +236,18 @@ elif mode == "Batch Prediction":
     )
 
     if uploaded_file is not None:
-        
-         try:
-        if uploaded_file.name.endswith(".csv"):
-            df = pd.read_csv(uploaded_file)
-        else:
-            df = pd.read_excel(uploaded_file)
 
-        st.success(f"File loaded successfully! Total molecules: {len(df)}")
+        try:
+            if uploaded_file.name.endswith(".csv"):
+                df = pd.read_csv(uploaded_file)
+            else:
+                df = pd.read_excel(uploaded_file)
 
-    except Exception as e:
-        st.error(f"Error reading file: {e}")
-        st.stop()
+            st.success(f"File loaded successfully! Total molecules: {len(df)}")
+
+        except Exception as e:
+            st.error(f"Error reading file: {e}")
+            st.stop()
 
         if "Smiles" not in df.columns:
             st.error("File must contain a 'Smiles' column")
@@ -290,7 +290,7 @@ elif mode == "Batch Prediction":
             file_name="prediction_results.csv",
             mime="text/csv"
         )
-
+        
 # =========================================================
 # CONTACT
 # =========================================================
