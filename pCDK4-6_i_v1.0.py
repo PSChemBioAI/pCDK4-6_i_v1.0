@@ -232,7 +232,7 @@ if mode == "🧪 Single Molecule Prediction":
 
     st.header("Single Molecule Prediction")
 
-    col1, col2 = st.columns([1.2,1])
+    col1, col2 = st.columns([1.2,0.8])
 
     with col1:
     st.markdown("### Draw Molecule")
