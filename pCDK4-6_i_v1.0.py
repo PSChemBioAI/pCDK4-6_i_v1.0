@@ -12,6 +12,7 @@ from PIL import Image
 # =========================================================
 # Author : Priyanka Solanki
 # =========================================================
+# Streamlit
 logo_url = "images/logo.png"
 st.image(logo_url)
 
