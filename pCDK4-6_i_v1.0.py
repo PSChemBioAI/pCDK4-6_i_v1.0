@@ -35,23 +35,12 @@ section[data-testid="stSidebar"] {
 }
 
 /* Sidebar text */
+section[data-testid="stSidebar"] label,
+section[data-testid="stSidebar"] .stRadio label,
 section[data-testid="stSidebar"] p,
 section[data-testid="stSidebar"] span {
     color: white !important;
     font-size: 18px !important;
-}
-
-/* RADIO BUTTONS AS CARDS */
-.stRadio label {
-    background: #145A32 !important;
-    padding: 12px 18px !important;
-    border-radius: 12px !important;
-    margin-bottom: 10px !important;
-    box-shadow: 0px 4px 10px rgba(0,0,0,0.15);
-}
-
-.stRadio label:hover {
-    background: #1E7D4D !important;
 }
 
 /* Sidebar success box */
@@ -86,9 +75,11 @@ details {
 }
 
 /* Buttons */
-.stButton > button:hover {
-    background-color: #145A32;
+.stButton > button {
+    background-color: #1E7D4D;
     color: white;
+    border-radius: 8px;
+    border: none;
 }
 
 .stButton > button:hover {
@@ -189,16 +180,6 @@ def predict_smiles(smiles):
 # =========================================================
 st.title("pCDK4-6-i_v1.0 tool: Predictor for CDK4/6 inhibitors")
 
-st.markdown(
-"""
-<h4 style='color:#2E6B4F; font-weight:400;'>
-AI-Powered CDK4/6 Inhibitor Prediction Platform
-</h4>
-<hr>
-""",
-unsafe_allow_html=True
-)
-
 with st.expander("About", expanded=True):
     st.write("""
     This web application predicts:
@@ -218,7 +199,7 @@ st.sidebar.success(" **Welcome to pCDK4-6_i_v1.0.** ")
 # =========================================================
 mode = st.sidebar.radio(
     "Select Prediction Mode",
-    ["Select...", "🧪 Single Molecule Prediction", "📂 Batch Prediction"]
+    ["Select...", "Single Molecule Prediction", "Batch Prediction"]
 )
 
 if mode == "Select...":
@@ -228,27 +209,15 @@ if mode == "Select...":
 # =========================================================
 # SINGLE PREDICTION
 # =========================================================
-if mode == "🧪 Single Molecule Prediction":
+if mode == "Single Molecule Prediction":
 
     st.header("Single Molecule Prediction")
 
-    col1, col2 = st.columns([1.2,0.8])
+    col1, col2 = st.columns(2)
 
     with col1:
-    st.markdown("### Draw Molecule")
-
-    st.markdown("""
-    <div style="
-        background:white;
-        padding:15px;
-        border-radius:15px;
-        box-shadow:0px 4px 12px rgba(0,0,0,0.08);
-    ">
-    """, unsafe_allow_html=True)
-
-    smile_code = st_ketcher(height=450)
-
-    st.markdown("</div>", unsafe_allow_html=True)
+        st.markdown("### Draw Molecule")
+        smile_code = st_ketcher()
 
     with col2:
         st.markdown("### SMILES Input")
@@ -267,7 +236,7 @@ if mode == "🧪 Single Molecule Prediction":
             clf_pred, clf_prob, reg_pred = result
             label = "Active" if clf_pred == 1 else "Inactive"
 
-          res_col1, res_col2 = st.columns([1,1], gap="small")
+            res_col1, res_col2 = st.columns([1, 1.2])
 
             with res_col1:
                 img = generate_molecule_image(smiles_input)
@@ -314,7 +283,7 @@ if mode == "🧪 Single Molecule Prediction":
 # =========================================================
 # BATCH PREDICTION
 # =========================================================
-elif mode == "📂 Batch Prediction":
+elif mode == "Batch Prediction":
 
     st.header("Batch Prediction")
 
