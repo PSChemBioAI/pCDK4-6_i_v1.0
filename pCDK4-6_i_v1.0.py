@@ -34,6 +34,13 @@ section[data-testid="stSidebar"] {
     background-color: #0B3D2E !important;
 }
 
+/* Sidebar SUCCESS box (Welcome message) */
+section[data-testid="stSidebar"] div[data-testid="stAlert"][kind="success"] {
+    background-color: #000000 !important;   /* black background */
+    color: #ffffff !important;              /* white text */
+    border-radius: 10px;
+}
+
 /* Sidebar text */
 section[data-testid="stSidebar"] label,
 section[data-testid="stSidebar"] .stRadio label,
@@ -348,5 +355,6 @@ with st.expander("Contact"):
     st.write("""
     **Priyanka Solanki**  
      https://github.com/PriyankaDrugAI
+     
      priyankasolanki2578@gmail.com
     """)
