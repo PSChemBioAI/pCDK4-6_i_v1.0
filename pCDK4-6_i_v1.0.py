@@ -23,13 +23,63 @@ st.set_page_config(
 
 st.markdown("""
 <style>
-section[data-testid="stSidebar"] label {
-    font-size: 20px !important;
-    font-weight: bold !important;
+
+/* Main app background */
+[data-testid="stAppViewContainer"] {
+    background-color: #F1FAF4;
 }
-section[data-testid="stSidebar"] div[role="radiogroup"] label {
+
+/* Sidebar background */
+section[data-testid="stSidebar"] {
+    background-color: #0B3D2E !important;
+}
+
+/* Sidebar text */
+section[data-testid="stSidebar"] label,
+section[data-testid="stSidebar"] .stRadio label,
+section[data-testid="stSidebar"] p,
+section[data-testid="stSidebar"] span {
+    color: white !important;
     font-size: 18px !important;
 }
+
+/* Sidebar success box */
+section[data-testid="stSidebar"] div[data-testid="stAlert"] {
+    background-color: #DDF5E3 !important;
+    color: #145A32 !important;
+    border-radius: 10px;
+}
+
+/* Main title */
+h1 {
+    color: #145A32 !important;
+}
+
+/* Headers */
+h2, h3 {
+    color: #1E5631 !important;
+}
+
+/* Expander */
+details {
+    background-color: #EAF7EE;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+/* Buttons */
+.stButton > button {
+    background-color: #1E7D4D;
+    color: white;
+    border-radius: 8px;
+    border: none;
+}
+
+.stButton > button:hover {
+    background-color: #145A32;
+    color: white;
+}
+
 </style>
 """, unsafe_allow_html=True)
 # --------- Utility Functions ---------
