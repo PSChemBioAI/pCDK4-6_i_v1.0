@@ -35,12 +35,23 @@ section[data-testid="stSidebar"] {
 }
 
 /* Sidebar text */
-section[data-testid="stSidebar"] label,
-section[data-testid="stSidebar"] .stRadio label,
 section[data-testid="stSidebar"] p,
 section[data-testid="stSidebar"] span {
     color: white !important;
     font-size: 18px !important;
+}
+
+/* RADIO BUTTONS AS CARDS */
+.stRadio label {
+    background: #145A32 !important;
+    padding: 12px 18px !important;
+    border-radius: 12px !important;
+    margin-bottom: 10px !important;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.15);
+}
+
+.stRadio label:hover {
+    background: #1E7D4D !important;
 }
 
 /* Sidebar success box */
@@ -69,17 +80,19 @@ h2, h3 {
 
 /* Expander */
 details {
-    background-color: #EAF7EE;
-    border-radius: 8px;
-    padding: 10px;
+    background: white;
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow: 0px 4px 15px rgba(0,0,0,0.08);
 }
 
 /* Buttons */
-.stButton > button {
-    background-color: #1E7D4D;
+.stButton > button:hover {
+    background-color: #145A32;
     color: white;
-    border-radius: 8px;
-    border: none;
+    transform: translateY(-2px);
+    transition: 0.3s;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 .stButton > button:hover {
@@ -199,7 +212,7 @@ st.sidebar.success(" **Welcome to pCDK4-6_i_v1.0.** ")
 # =========================================================
 mode = st.sidebar.radio(
     "Select Prediction Mode",
-    ["Select...", "Single Molecule Prediction", "Batch Prediction"]
+    ["Select...", "🧪 Single Molecule Prediction", "📂 Batch Prediction"]
 )
 
 if mode == "Select...":
@@ -209,7 +222,7 @@ if mode == "Select...":
 # =========================================================
 # SINGLE PREDICTION
 # =========================================================
-if mode == "Single Molecule Prediction":
+if mode == "🧪 Single Molecule Prediction":
 
     st.header("Single Molecule Prediction")
 
@@ -283,7 +296,7 @@ if mode == "Single Molecule Prediction":
 # =========================================================
 # BATCH PREDICTION
 # =========================================================
-elif mode == "Batch Prediction":
+elif mode == "📂 Batch Prediction":
 
     st.header("Batch Prediction")
 
