@@ -16,7 +16,7 @@ logo_url = "images/logo.png"
 st.image(logo_url)
 
 st.set_page_config(
-    page_title="Bioactivity Predictor",
+    page_title="pCDK4-6-i_v1.0 tool: Predictor for CDK4/6 inhibitors",
     layout="wide",
     page_icon=logo_url
 )
