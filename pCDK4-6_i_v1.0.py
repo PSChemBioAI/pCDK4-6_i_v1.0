@@ -34,19 +34,12 @@ section[data-testid="stSidebar"] {
     background-color: #0B3D2E !important;
 }
 
-/* Sidebar SUCCESS box (Welcome message) */
-section[data-testid="stSidebar"] div[data-testid="stAlert"][kind="success"] {
-    background-color: #000000 !important;   /* black background */
-    color: #ffffff !important;              /* white text */
-    border-radius: 10px;
-}
-
 /* Sidebar text */
 section[data-testid="stSidebar"] label,
 section[data-testid="stSidebar"] .stRadio label,
 section[data-testid="stSidebar"] p,
 section[data-testid="stSidebar"] span {
-    color: white !important;
+    color: black !important;
     font-size: 18px !important;
 }
 
@@ -192,7 +185,7 @@ with st.expander("About", expanded=True):
     """)
 
 st.sidebar.image(logo_url)
-st.sidebar.success("Welcome to Bioactivity Predictor")
+st.sidebar.success("Welcome to pCDK4-6_i_v1.0. ")
 
 # =========================================================
 # SIDEBAR MODE
