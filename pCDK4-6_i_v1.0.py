@@ -127,11 +127,11 @@ with st.expander("About", expanded=True):
     st.write("""
     This web application predicts:
 
-    1. **Bioactivity Class** → Active / Inactive  
+    1. **Bioactivity Class** → Active / Inactive against CDK4/6 protein
     2. **Probability of Activity**
     3. **Predicted pIC50**
 
-    using machine learning models.
+    using machine learning model.
     """)
 
 st.sidebar.image(logo_url)
@@ -231,13 +231,23 @@ elif mode == "Batch Prediction":
     st.header("Batch Prediction")
 
     uploaded_file = st.file_uploader(
-        "Upload CSV file with 'Smiles' column",
-        type=["csv"]
+        "Upload CSV or Excel file with 'Smiles' column",
+        type=["csv", "xlsx", "xls"]
     )
 
     if uploaded_file is not None:
+        
+         try:
+        if uploaded_file.name.endswith(".csv"):
+            df = pd.read_csv(uploaded_file)
+        else:
+            df = pd.read_excel(uploaded_file)
 
-        df = pd.read_csv(uploaded_file)
+        st.success(f"File loaded successfully! Total molecules: {len(df)}")
+
+    except Exception as e:
+        st.error(f"Error reading file: {e}")
+        st.stop()
 
         if "Smiles" not in df.columns:
             st.error("File must contain a 'Smiles' column")
@@ -288,4 +298,5 @@ with st.expander("Contact"):
     st.write("""
     **Priyanka Solanki**  
      https://github.com/PriyankaDrugAI
+     priyankasolanki2578@gmail.com
     """)
