@@ -32,6 +32,45 @@ section[data-testid="stSidebar"] div[role="radiogroup"] label {
 }
 </style>
 """, unsafe_allow_html=True)
+# --------- Utility Functions ---------
+
+def mol_to_array(mol, size=(300, 300)):
+    try:
+        # Try advanced drawing (best quality)
+        from rdkit.Chem.Draw import rdMolDraw2D
+        drawer = rdMolDraw2D.MolDraw2DCairo(size[0], size[1])
+        drawer.DrawMolecule(mol)
+        drawer.FinishDrawing()
+        img_data = drawer.GetDrawingText()
+        return Image.open(io.BytesIO(img_data))
+
+    except:
+        try:
+            # Fallback: simple PIL drawing
+            #from rdkit.Chem import Draw
+            return Draw.MolToImage(mol, size=size)
+
+        except:
+            return None
+
+#from rdkit.Chem import Draw
+def get_molecule_image(smiles):
+    url = f"https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/smiles/{smiles}/PNG"
+    return url
+    
+def generate_2d_image(smiles, img_size=(300, 300)):
+    try:
+        mol = Chem.MolFromSmiles(smiles)
+        if mol:
+            img = Draw.MolToImage(mol, size=img_size, kekulize=True)
+            return img
+        else:
+            return None
+    except:
+        return None
+        
+def pred_label(pred):
+    return "### **Active**" if pred == 1 else "### **Inactive**"
 
 # =========================================================
 # LOAD MODELS
@@ -82,7 +121,7 @@ def predict_smiles(smiles):
 # =========================================================
 # UI HEADER
 # =========================================================
-st.title("Bioactivity Prediction Web App")
+st.title("pCDK4-6-i_v1.0 tool: Predictor for CDK4/6 inhibitors")
 
 with st.expander("About", expanded=True):
     st.write("""
