@@ -110,7 +110,7 @@ def mol_to_array(mol, size=(300, 300)):
         except:
             return None
 
-from rdkit.Chem import Draw
+#from rdkit.Chem import Draw
 def get_molecule_image(smiles):
     url = f"https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/smiles/{smiles}/PNG"
     return url
