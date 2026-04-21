@@ -42,6 +42,13 @@ section[data-testid="stSidebar"] span {
     color: white !important;
     font-size: 18px !important;
 }
+/* Welcome box */
+section[data-testid="stSidebar"] div[data-testid="stAlert"] {
+    background-color: black !important;
+    color: white !important;
+    border-radius: 10px;
+    border: none !important;
+}
 
 /* Sidebar success box */
 section[data-testid="stSidebar"] div[data-testid="stAlert"] {
