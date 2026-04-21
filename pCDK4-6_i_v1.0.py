@@ -180,6 +180,16 @@ def predict_smiles(smiles):
 # =========================================================
 st.title("pCDK4-6-i_v1.0 tool: Predictor for CDK4/6 inhibitors")
 
+st.markdown(
+"""
+<h4 style='color:#2E6B4F; font-weight:400;'>
+AI-Powered CDK4/6 Inhibitor Prediction Platform
+</h4>
+<hr>
+""",
+unsafe_allow_html=True
+)
+
 with st.expander("About", expanded=True):
     st.write("""
     This web application predicts:
