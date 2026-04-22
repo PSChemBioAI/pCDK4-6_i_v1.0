@@ -233,7 +233,7 @@ if mode == "Single Molecule Prediction":
                 clf_pred, clf_prob, reg_pred = result
                 label = "Active" if clf_pred == 1 else "Inactive"
 
-                res_col1, res_col2 = st.columns([1.3, 1])
+                res_col1, res_col2 = st.columns([1, 1.2])
 
                 with res_col1:
                     img = generate_molecule_image(smiles_input)
