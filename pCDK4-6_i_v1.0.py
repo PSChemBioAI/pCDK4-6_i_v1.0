@@ -92,42 +92,34 @@ details {
 </style>
 """, unsafe_allow_html=True)
 
-# --------- Utility Functions ---------
+# =========================================================
+# UTILITY FUNCTIONS
+# =========================================================
 
-def mol_to_array(mol, size=(300, 300)):
-    try:
-        # Try advanced drawing (best quality)
-        from rdkit.Chem.Draw import rdMolDraw2D
-        drawer = rdMolDraw2D.MolDraw2DCairo(size[0], size[1])
-        drawer.DrawMolecule(mol)
-        drawer.FinishDrawing()
-        img_data = drawer.GetDrawingText()
-        return Image.open(io.BytesIO(img_data))
-
-    except:
-        try:
-            # Fallback: simple PIL drawing
-            #from rdkit.Chem import Draw
-            return Draw.MolToImage(mol, size=size)
-
-        except:
-            return None
-
-#from rdkit.Chem import Draw
-def get_molecule_image(smiles):
-    url = f"https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/smiles/{smiles}/PNG"
-    return url
-    
-def generate_2d_image(smiles, img_size=(300, 300)):
+def generate_molecule_image(smiles, size=(300, 300)):
     try:
         mol = Chem.MolFromSmiles(smiles)
-        if mol:
-            img = Draw.MolToImage(mol, size=img_size, kekulize=True)
-            return img
-        else:
+        if mol is None:
             return None
-    except:
+
+        # --- Try high-quality RDKit drawing ---
+        try:
+            from rdkit.Chem.Draw import rdMolDraw2D
+            drawer = rdMolDraw2D.MolDraw2DCairo(size[0], size[1])
+            drawer.DrawMolecule(mol)
+            drawer.FinishDrawing()
+            img_data = drawer.GetDrawingText()
+            return Image.open(io.BytesIO(img_data))
+        except:
+            pass
+
+        # --- Fallback drawing ---
+        return Draw.MolToImage(mol, size=size, kekulize=True)
+
+    except Exception as e:
+        print(f"Image generation error: {e}")
         return None
+
 
 def predict_smiles(smiles):
     mol = Chem.MolFromSmiles(smiles)
@@ -145,7 +137,7 @@ def predict_smiles(smiles):
     reg_pred = reg_model.predict(fp_array)[0]
 
     return clf_pred, clf_prob, reg_pred
-
+        
 # =========================================================
 # LOAD MODELS
 # =========================================================
@@ -161,36 +153,6 @@ clf_model, reg_model = load_models()
 # FINGERPRINT GENERATOR
 # =========================================================
 fpg = rdFingerprintGenerator.GetMorganGenerator(radius=3, fpSize=2048)
-
-# =========================================================
-# UTILITY FUNCTIONS
-# =========================================================
-def generate_molecule_image(smiles):
-    try:
-        mol = Chem.MolFromSmiles(smiles)
-        if mol:
-            img = Draw.MolToImage(mol, size=(300, 300),kekulize=True)
-            return img
-        return None
-    except:
-        return None
-
-def predict_smiles(smiles):
-    mol = Chem.MolFromSmiles(smiles)
-
-    if mol is None:
-        return None
-
-    fp = fpg.GetFingerprint(mol)
-    arr = np.zeros((2048,), dtype=int)
-    DataStructs.ConvertToNumpyArray(fp, arr)
-    fp_array = arr.reshape(1, -1)
-
-    clf_pred = clf_model.predict(fp_array)[0]
-    clf_prob = clf_model.predict_proba(fp_array)[0][1]
-    reg_pred = reg_model.predict(fp_array)[0]
-
-    return clf_pred, clf_prob, reg_pred
 
 # =========================================================
 # UI HEADER
