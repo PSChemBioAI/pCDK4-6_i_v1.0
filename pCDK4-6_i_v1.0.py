@@ -162,6 +162,35 @@ clf_model, reg_model = load_models()
 # =========================================================
 fpg = rdFingerprintGenerator.GetMorganGenerator(radius=3, fpSize=2048)
 
+# =========================================================
+# UTILITY FUNCTIONS
+# =========================================================
+def generate_molecule_image(smiles):
+    try:
+        mol = Chem.MolFromSmiles(smiles)
+        if mol:
+            img = Draw.MolToImage(mol, size=(300, 300),kekulize=True)
+            return img
+        return None
+    except:
+        return None
+
+def predict_smiles(smiles):
+    mol = Chem.MolFromSmiles(smiles)
+
+    if mol is None:
+        return None
+
+    fp = fpg.GetFingerprint(mol)
+    arr = np.zeros((2048,), dtype=int)
+    DataStructs.ConvertToNumpyArray(fp, arr)
+    fp_array = arr.reshape(1, -1)
+
+    clf_pred = clf_model.predict(fp_array)[0]
+    clf_prob = clf_model.predict_proba(fp_array)[0][1]
+    reg_pred = reg_model.predict(fp_array)[0]
+
+    return clf_pred, clf_prob, reg_pred
 
 # =========================================================
 # UI HEADER
