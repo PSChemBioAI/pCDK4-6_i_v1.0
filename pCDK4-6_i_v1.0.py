@@ -96,7 +96,7 @@ details {
 # UTILITY FUNCTIONS
 # =========================================================
 
-def generate_molecule_image(smiles, size=(500, 500)):
+def generate_molecule_image(smiles, size=(700, 700)):
     """
     Try RDKit rdMolDraw2D (no Draw import),
     fallback to PubChem image URL.
