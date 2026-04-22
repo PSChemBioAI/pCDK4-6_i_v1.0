@@ -17,14 +17,12 @@ ____
 <img src="https://github.com/PSChemBioAI/pCDK4-6_i_v1.0/blob/main/logo.png?raw=1" width="400" align="right">
 
 **How to use this?**
-1. Single Molecule Prediction
 
-Enter a SMILES string directly or draw the molecule using the molecular sketcher. The model will analyze the compound and provide the predicted probability of activity and pIC50 value.
+The pCDK4-6_i_v1.0 web application can be used by following [This Link](https://pschembioai-cdk4-6.streamlit.app/)
 
-2. Batch Prediction
+1. Single Molecule Prediction: Enter a SMILES string directly or draw the molecule using the molecular sketcher. The model will analyze the compound and provide the predicted probability of activity and pIC50 value.
 
-Upload a CSV or Excel file containing the SMILES strings of multiple compounds. The application will process all molecules and return the predicted activity probabilities and pIC50 values.
-
+2. Batch Prediction: Upload a CSV or Excel file containing the SMILES strings of multiple compounds. The application will process all molecules and return the predicted activity probabilities and pIC50 values.
 ___
 
 **Example Smiles:**
