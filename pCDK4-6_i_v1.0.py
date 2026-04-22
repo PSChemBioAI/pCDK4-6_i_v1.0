@@ -15,7 +15,7 @@ from PIL import Image
 # Author : Priyanka Solanki
 # =========================================================
 # Streamlit
-logo_url = "https://raw.githubusercontent.com/PriyankaDrugAI/pCDK4-6_i_v1.0/main/logo.png"
+logo_url = "https://raw.githubusercontent.com/PSChemBioAI/pCDK4-6_i_v1.0/main/logo.png"
 
 st.set_page_config(
     page_title="pCDK4-6-i_v1.0 tool: Predictor of CDK4/6 inhibitors",
@@ -351,7 +351,7 @@ elif mode == "Batch Prediction":
 with st.expander("Contact"):
     st.write("""
     **Priyanka Solanki**  
-     https://github.com/PriyankaDrugAI
+     https://github.com/PSChemBioAI
      
      priyankasolanki2578@gmail.com
     """)
