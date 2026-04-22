@@ -128,38 +128,6 @@ def generate_2d_image(smiles, img_size=(300, 300)):
             return None
     except:
         return None
-        
-def pred_label(pred):
-    return "### **Active**" if pred == 1 else "### **Inactive**"
-
-# =========================================================
-# LOAD MODELS
-# =========================================================
-@st.cache_resource
-def load_models():
-    clf_model = joblib.load("xgb_model.pkl")
-    reg_model = joblib.load("xgb_fp_reg_model.pkl")
-    return clf_model, reg_model
-
-clf_model, reg_model = load_models()
-
-# =========================================================
-# FINGERPRINT GENERATOR
-# =========================================================
-fpg = rdFingerprintGenerator.GetMorganGenerator(radius=3, fpSize=2048)
-
-# =========================================================
-# UTILITY FUNCTIONS
-# =========================================================
-def generate_molecule_image(smiles):
-    try:
-        mol = Chem.MolFromSmiles(smiles)
-        if mol:
-            img = Draw.MolToImage(mol, size=(300, 300),kekulize=True)
-            return img
-        return None
-    except:
-        return None
 
 def predict_smiles(smiles):
     mol = Chem.MolFromSmiles(smiles)
@@ -177,6 +145,23 @@ def predict_smiles(smiles):
     reg_pred = reg_model.predict(fp_array)[0]
 
     return clf_pred, clf_prob, reg_pred
+
+# =========================================================
+# LOAD MODELS
+# =========================================================
+@st.cache_resource
+def load_models():
+    clf_model = joblib.load("xgb_model.pkl")
+    reg_model = joblib.load("xgb_fp_reg_model.pkl")
+    return clf_model, reg_model
+
+clf_model, reg_model = load_models()
+
+# =========================================================
+# FINGERPRINT GENERATOR
+# =========================================================
+fpg = rdFingerprintGenerator.GetMorganGenerator(radius=3, fpSize=2048)
+
 
 # =========================================================
 # UI HEADER
