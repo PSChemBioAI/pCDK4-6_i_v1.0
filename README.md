@@ -28,15 +28,13 @@ ____
 
 ___
 
-Example Smiles:
+**Example Smiles:**
 1. Known CDK4/6 inhibitor: CC(=O)c1c(C)c2cnc(Nc3ccc(N4CCNCC4)cn3)nc2n(C2CCCC2)c1=O
 2. Known CDK4/6 Inactive molecule: Cc1cc(C)nc(NC(=S)N2CCN(Cc3ccc(C(F)(F)F)cc3)CC2)c1 
 3. Imatinib:
 Cc1ccc(NC(=O)c2ccc(CN3CCN(C)CC3)cc2)cc1Nc1nccc(-c2cccnc2)n1
 ______
-Applications
-
-PS ChemBioAI can be used for:
+**Applications**
 - Virtual Screening of chemical compounds
 - Bioactivity prediction in early-stage drug discovery
 - Prioritization of lead compounds based on predicted pIC50 values
