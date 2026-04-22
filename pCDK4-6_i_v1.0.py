@@ -18,7 +18,7 @@ from PIL import Image
 logo_url = "https://raw.githubusercontent.com/PSChemBioAI/pCDK4-6_i_v1.0/main/logo.png"
 
 st.set_page_config(
-    page_title="pCDK4-6-i_v1.0 tool: Predictor of CDK4/6 inhibitors",
+    page_title="pCDK4-6_i_v1.0 tool: Predictor of CDK4/6 inhibitors",
     layout="wide",
     page_icon=logo_url
 )
@@ -165,7 +165,7 @@ fpg = rdFingerprintGenerator.GetMorganGenerator(radius=3, fpSize=2048)
 # =========================================================
 # UI HEADER
 # =========================================================
-st.title("pCDK4-6-i_v1.0 tool: Predictor for CDK4/6 inhibitors")
+st.title("pCDK4-6_i_v1.0 tool: Predictor for CDK4/6 inhibitors")
 
 st.markdown(
 """
