@@ -8,6 +8,7 @@ import io
 from rdkit import Chem, DataStructs
 #from rdkit import Chem, DataStructs
 from rdkit.Chem import rdFingerprintGenerator
+from rdkit.Chem import Draw
 
 from PIL import Image
 
