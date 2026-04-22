@@ -5,7 +5,7 @@ i = inhibitor,
 v1.0 = version 1.0.
 
 **Machine learning-based prediction tool for CDK4/6 inhibitor activity**
-<p align="right"> <img src="https://github.com/PSChemBioAI/pCDK4-6_i_v1.0/blob/main/logo.png?raw=1" width="350"> </p>
+ <img src="https://github.com/PSChemBioAI/pCDK4-6_i_v1.0/blob/main/logo.png?raw=1" width="350"> 
 
 It is a <img src="https://streamlit.io/images/brand/streamlit-mark-color.svg" alt="Streamlit Logo" width="50"/>-based [Web Application](https://pschembioai-cdk4-6.streamlit.app/). that predict the CDK4/6 inhibitory property (Active or Inactive) of query molecule amd displayed Predicted Probability score along with the Predicted pIC50 values. This tool also allow bacth prediction.
 
