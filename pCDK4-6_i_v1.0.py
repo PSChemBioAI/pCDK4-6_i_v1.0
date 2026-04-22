@@ -120,7 +120,22 @@ def generate_molecule_image(smiles, size=(300, 300)):
         print(f"Image generation error: {e}")
         return None
 
-
+#from rdkit.Chem import Draw
+def get_molecule_image(smiles):
+    url = f"https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/smiles/{smiles}/PNG"
+    return url
+    
+def generate_2d_image(smiles, img_size=(300, 300)):
+    try:
+        mol = Chem.MolFromSmiles(smiles)
+        if mol:
+            img = Draw.MolToImage(mol, size=img_size, kekulize=True)
+            return img
+        else:
+            return None
+    except:
+        return None
+        
 def predict_smiles(smiles):
     mol = Chem.MolFromSmiles(smiles)
 
