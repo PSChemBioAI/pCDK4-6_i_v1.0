@@ -96,7 +96,7 @@ details {
 def mol_to_array(mol, size=(300, 300)):
     try:
         # Try advanced drawing (best quality)
-        
+         from rdkit.Chem.Draw import rdMolDraw2D
         drawer = rdMolDraw2D.MolDraw2DCairo(size[0], size[1])
         drawer.DrawMolecule(mol)
         drawer.FinishDrawing()
