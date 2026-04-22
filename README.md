@@ -1,4 +1,4 @@
-<img width="1348" height="532" alt="image" src="https://github.com/user-attachments/assets/e3ab9977-c392-445b-88d2-00ec9ddf468d" /># pCDK4-6_i_v1.0 
+# pCDK4-6_i_v1.0 
 >p = predictor,
 CDK4-6 = CDK4/6 enzyme,
 i = inhibitor,
