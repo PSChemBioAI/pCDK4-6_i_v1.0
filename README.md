@@ -19,9 +19,9 @@ ____
 
 The pCDK4-6_i_v1.0 web application can be used by following [This Link](https://pschembioai-cdk4-6.streamlit.app/)
 
-1. Single Molecule Prediction: Enter a SMILES string directly or draw the molecule using the molecular sketcher. The model will analyze the compound and provide the predicted probability of activity and pIC50 value.
+**1. Single Molecule Prediction:** Enter a SMILES string directly or draw the molecule using the molecular sketcher. The model will analyze the compound and provide the predicted probability of activity and pIC50 value.
 
-2. Batch Prediction: Upload a CSV or Excel file containing the SMILES strings of multiple compounds. The application will process all molecules and return the predicted activity probabilities and pIC50 values.
+**2. Batch Prediction:** Upload a CSV or Excel file containing the SMILES strings of multiple compounds. The application will process all molecules and return the predicted activity probabilities and pIC50 values.
 ___
 
 **Example Smiles:**
