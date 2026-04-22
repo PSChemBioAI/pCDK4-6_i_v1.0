@@ -8,6 +8,8 @@ import io
 from rdkit import Chem, DataStructs
 from rdkit.Chem import rdFingerprintGenerator
 from PIL import Image
+from rdkit.Chem import Draw
+from rdkit.Chem.Draw import rdMolDraw2D
 
 # =========================================================
 # Author : Priyanka Solanki
@@ -94,7 +96,7 @@ details {
 def mol_to_array(mol, size=(300, 300)):
     try:
         # Try advanced drawing (best quality)
-        from rdkit.Chem.Draw import rdMolDraw2D
+        
         drawer = rdMolDraw2D.MolDraw2DCairo(size[0], size[1])
         drawer.DrawMolecule(mol)
         drawer.FinishDrawing()
@@ -152,7 +154,7 @@ def generate_molecule_image(smiles):
     try:
         mol = Chem.MolFromSmiles(smiles)
         if mol:
-            img = Draw.MolToImage(mol, size=(300, 300))
+            img = Draw.MolToImage(mol, size=(300, 300),kekulize=True)
             return img
         return None
     except:
@@ -236,59 +238,59 @@ if mode == "Single Molecule Prediction":
             value=smile_code if smile_code else ""
         )
 
-    if smiles_input:
-        with st.spinner("Predicting..."):
-            result = predict_smiles(smiles_input)
+        if smiles_input:
+            with st.spinner("Predicting..."):
+                result = predict_smiles(smiles_input)
 
-        if result is None:
-            st.error("Invalid SMILES!")
-        else:
-            clf_pred, clf_prob, reg_pred = result
-            label = "Active" if clf_pred == 1 else "Inactive"
+            if result is None:
+                st.error("Invalid SMILES!")
+            else:
+                clf_pred, clf_prob, reg_pred = result
+                label = "Active" if clf_pred == 1 else "Inactive"
 
-            res_col1, res_col2 = st.columns([1, 1.2])
+                res_col1, res_col2 = st.columns([1, 1.2])
 
-            with res_col1:
-                img = generate_molecule_image(smiles_input)
-                if img:
-                    st.image(img, use_container_width=True)
-                else:
-                    st.warning("Unable to generate molecule image.")
+                with res_col1:
+                    img = generate_molecule_image(smiles_input)
+                    if img:
+                        st.image(img, use_container_width=True)
+                    else:
+                        st.warning("Unable to generate molecule image.")
 
-            with res_col2:
-                st.markdown(
-                    f"""
-                    <div style="
-                        font-size:42px;
-                        font-weight:700;
-                        text-align:center;
-                        color:{'green' if clf_pred == 1 else 'red'};
-                    ">
-                    {label}
-                    </div>
-                    """,
-                    unsafe_allow_html=True
-                )
+                with res_col2:
+                    st.markdown(
+                        f"""
+                        <div style="
+                            font-size:42px;
+                            font-weight:700;
+                            text-align:center;
+                            color:{'green' if clf_pred == 1 else 'red'};
+                        ">
+                        {label}
+                        </div>
+                        """,
+                        unsafe_allow_html=True
+                    )
 
-                st.markdown(
-                    f"""
-                    <div style="text-align:center; font-size:18px; margin-top:15px;">
-                    <b>Probability (Active)</b><br>
-                    {clf_prob:.3f}
-                    </div>
-                    """,
-                    unsafe_allow_html=True
-                )
+                    st.markdown(
+                        f"""
+                        <div style="text-align:center; font-size:18px; margin-top:15px;">
+                        <b>Probability (Active)</b><br>
+                        {clf_prob:.3f}
+                        </div>
+                        """,
+                        unsafe_allow_html=True
+                    )
 
-                st.markdown(
-                    f"""
-                    <div style="text-align:center; font-size:18px; margin-top:15px;">
-                    <b>Predicted pIC50</b><br>
-                    {reg_pred:.3f}
-                    </div>
-                    """,
-                    unsafe_allow_html=True
-                )
+                    st.markdown(
+                        f"""
+                        <div style="text-align:center; font-size:18px; margin-top:15px;">
+                        <b>Predicted pIC50</b><br>
+                        {reg_pred:.3f}
+                        </div>
+                        """,
+                        unsafe_allow_html=True
+                    )
 
 # =========================================================
 # BATCH PREDICTION
