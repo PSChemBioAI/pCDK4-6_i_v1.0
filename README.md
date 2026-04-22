@@ -4,7 +4,7 @@ CDK4-6 = CDK4/6 enzyme,
 i = inhibitor,
 v1.0 = version 1.0.
 
-<p align="right"> <img src="https://github.com/PSChemBioAI/pCDK4-6_i_v1.0/blob/main/logo.png?raw=1" width="550"> </p>
+<p align="right"> <img src="https://github.com/PSChemBioAI/pCDK4-6_i_v1.0/blob/main/logo.png?raw=1" width="350"> </p>
 
 **Machine learning-based prediction tool for CDK4/6 inhibitor activity**
 
