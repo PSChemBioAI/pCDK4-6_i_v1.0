@@ -8,7 +8,6 @@ import io
 from rdkit import Chem, DataStructs
 #from rdkit import Chem, DataStructs
 from rdkit.Chem import rdFingerprintGenerator
-from rdkit.Chem import Draw
 
 from PIL import Image
 
@@ -98,45 +97,38 @@ details {
 # =========================================================
 
 def generate_molecule_image(smiles, size=(300, 300)):
+    """
+    Try RDKit rdMolDraw2D (no Draw import),
+    fallback to PubChem image URL.
+    """
     try:
         mol = Chem.MolFromSmiles(smiles)
         if mol is None:
             return None
 
-        # --- Try high-quality RDKit drawing ---
+        # --- Try RDKit high-quality drawing (safe import) ---
         try:
             from rdkit.Chem.Draw import rdMolDraw2D
+            import io
+            from PIL import Image
+
             drawer = rdMolDraw2D.MolDraw2DCairo(size[0], size[1])
             drawer.DrawMolecule(mol)
             drawer.FinishDrawing()
             img_data = drawer.GetDrawingText()
             return Image.open(io.BytesIO(img_data))
-        except:
-            pass
 
-        # --- Fallback drawing ---
-        return Draw.MolToImage(mol, size=size, kekulize=True)
+        except Exception as e:
+            print(f"RDKit drawing failed: {e}")
+
+        # --- Fallback: PubChem image ---
+        return f"https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/smiles/{smiles}/PNG"
 
     except Exception as e:
         print(f"Image generation error: {e}")
         return None
 
-#from rdkit.Chem import Draw
-def get_molecule_image(smiles):
-    url = f"https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/smiles/{smiles}/PNG"
-    return url
-    
-def generate_2d_image(smiles, img_size=(300, 300)):
-    try:
-        mol = Chem.MolFromSmiles(smiles)
-        if mol:
-            img = Draw.MolToImage(mol, size=img_size, kekulize=True)
-            return img
-        else:
-            return None
-    except:
-        return None
-        
+
 def predict_smiles(smiles):
     mol = Chem.MolFromSmiles(smiles)
 
@@ -153,7 +145,7 @@ def predict_smiles(smiles):
     reg_pred = reg_model.predict(fp_array)[0]
 
     return clf_pred, clf_prob, reg_pred
-        
+
 # =========================================================
 # LOAD MODELS
 # =========================================================
