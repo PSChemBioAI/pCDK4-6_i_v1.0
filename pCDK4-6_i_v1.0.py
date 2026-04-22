@@ -6,10 +6,10 @@ import joblib
 import io
 
 from rdkit import Chem, DataStructs
+#from rdkit import Chem, DataStructs
 from rdkit.Chem import rdFingerprintGenerator
+
 from PIL import Image
-from rdkit.Chem import Draw
-from rdkit.Chem.Draw import rdMolDraw2D
 
 # =========================================================
 # Author : Priyanka Solanki
